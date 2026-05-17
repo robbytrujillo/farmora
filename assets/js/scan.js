@@ -1,12 +1,9 @@
-const MODEL_URL = "/farmora/assets/model/";
+const MODEL_URL = "/farmogana/assets/model/";
 
 let model;
 let webcam;
 let liveMode = false;
 
-/* ======================
-LOAD MODEL
-====================== */
 async function init() {
   model = await tmImage.load(
     MODEL_URL + "model.json",
@@ -18,9 +15,7 @@ async function init() {
 
 init();
 
-/* ======================
-UPLOAD FOTO
-====================== */
+/* upload */
 document
   .getElementById("upload")
   .addEventListener("change", async function (e) {
@@ -38,9 +33,7 @@ document
     };
   });
 
-/* ======================
-START CAMERA
-====================== */
+/* start cam */
 document.getElementById("cameraBtn").addEventListener("click", startCamera);
 
 async function startCamera() {
@@ -60,9 +53,6 @@ async function startCamera() {
   window.requestAnimationFrame(loop);
 }
 
-/* ======================
-LIVE LOOP
-====================== */
 async function loop() {
   if (!liveMode) return;
 
@@ -73,15 +63,11 @@ async function loop() {
   window.requestAnimationFrame(loop);
 }
 
-/* ======================
-CAPTURE BUTTON
-====================== */
 function addCaptureButton() {
   document.getElementById("preview").insertAdjacentHTML(
     "beforeend",
     `
-<button
-id="captureBtn"
+<button id="captureBtn"
 class="btn btn-success w-100 mt-3">
 Ambil Foto
 </button>
@@ -91,16 +77,12 @@ Ambil Foto
   document.getElementById("captureBtn").addEventListener("click", captureImage);
 }
 
-/* ======================
-CAPTURE
-====================== */
 async function captureImage() {
   liveMode = false;
 
   const canvas = document.createElement("canvas");
 
   canvas.width = webcam.canvas.width;
-
   canvas.height = webcam.canvas.height;
 
   const ctx = canvas.getContext("2d");
@@ -112,18 +94,12 @@ async function captureImage() {
   await predict(canvas, true);
 }
 
-/* ======================
-SHOW PREVIEW
-====================== */
 function showPreview(source) {
   document.getElementById("preview").innerHTML = "";
 
   document.getElementById("preview").appendChild(source);
 }
 
-/* ======================
-PREDICT
-====================== */
 async function predict(source, locked = false) {
   const prediction = await model.predict(source);
 
@@ -133,13 +109,44 @@ async function predict(source, locked = false) {
 
   const confidence = (top.probability * 100).toFixed(1);
 
-  render(top.className, confidence, locked);
+  let status = "";
+  let advice = "";
+
+  switch (top.className) {
+    case "Tomat Sehat":
+      status = "Healthy";
+      advice = "Tanaman tomat sehat.";
+      break;
+
+    case "Tomat Sakit":
+      status = "Warning";
+      advice = "Tomat terindikasi penyakit. Kurangi kelembapan berlebih.";
+      break;
+
+    case "Cabai Sehat":
+      status = "Healthy";
+      advice = "Cabai sehat.";
+      break;
+
+    case "Cabai Layu":
+      status = "Critical";
+      advice = "Cabai layu. Periksa akar dan kadar air.";
+      break;
+
+    case "Bukan Tanaman":
+      status = "Invalid";
+      advice = "Objek bukan tanaman.";
+      break;
+
+    default:
+      status = "Unknown";
+      advice = "Tidak dikenali.";
+  }
+
+  render(top.className, confidence, status, advice, locked);
 }
 
-/* ======================
-RENDER
-====================== */
-function render(plant, confidence, locked) {
+function render(plant, confidence, status, advice, locked) {
   let badge = locked ? "Final Result" : "Live Detection";
 
   document.getElementById("result").innerHTML = `
@@ -152,7 +159,72 @@ function render(plant, confidence, locked) {
 
 <h1>${confidence}%</h1>
 
+<p><strong>Status:</strong> ${status}</p>
+
+<p>${advice}</p>
+
 </div>
+
+`;
+
+  if (locked) {
+    generatePDFButton(plant, confidence, status, advice);
+  }
+}
+
+function generatePDFButton(plant, confidence, status, advice) {
+  const el = document.querySelector("#preview canvas,#preview img");
+
+  let imageData = "";
+
+  if (el.tagName === "CANVAS") {
+    imageData = el.toDataURL("image/png");
+  } else {
+    const c = document.createElement("canvas");
+
+    c.width = el.naturalWidth;
+    c.height = el.naturalHeight;
+
+    const ctx = c.getContext("2d");
+
+    ctx.drawImage(el, 0, 0);
+
+    imageData = c.toDataURL("image/png");
+  }
+
+  document.getElementById("pdfBtnWrap").innerHTML = `
+
+<form
+method="POST"
+action="export.php"
+target="_blank">
+
+<input type="hidden"
+name="image"
+value="${imageData}">
+
+<input type="hidden"
+name="plant"
+value="${plant}">
+
+<input type="hidden"
+name="confidence"
+value="${confidence}">
+
+<input type="hidden"
+name="status"
+value="${status}">
+
+<input type="hidden"
+name="advice"
+value="${advice}">
+
+<button
+class="btn btn-success w-100 mt-3">
+Cetak PDF
+</button>
+
+</form>
 
 `;
 }

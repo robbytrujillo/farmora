@@ -4,7 +4,7 @@ $conn = new mysqli(
     "localhost",
     "root",
     "",
-    "db_farmora"
+    "db_farmogana"
 );
 
 if($conn->connect_error){

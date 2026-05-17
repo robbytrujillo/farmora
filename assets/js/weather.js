@@ -38,16 +38,15 @@ async function success(position) {
   fetchWeather(lat, lon, cityName);
 }
 
-/* ambil weather */
+/* WEATHER */
 async function fetchWeather(lat, lon, cityName) {
-  const res = await fetch(`/farmora/api/weather.php?lat=${lat}&lon=${lon}`);
+  const res = await fetch(`/farmogana/api/weather.php?lat=${lat}&lon=${lon}`);
 
   const data = await res.json();
 
   console.log(data);
 
   document.getElementById("city").innerText = cityName;
-
   document.getElementById("temp").innerText = Math.round(data.temp) + "°";
 
   document.getElementById("weather").innerText = data.weather;
@@ -59,14 +58,20 @@ async function fetchWeather(lat, lon, cityName) {
   document.getElementById("weatherIcon").src =
     `https://openweathermap.org/img/wn/${data.icon}@2x.png`;
 
-  /* rekomendasi tanaman */
-  getRecommendation(data.temp, data.humidity);
+  /* rekomendasi dari API */
+  //   getRecommendation(data.temp, data.humidity);
+  const plants = await predictPlant(data.temp, data.humidity, data.wind);
+
+  renderRecommendation(plants);
+
+  /* dashboard smart dynamic */
+  updateSmartUI(data);
 }
 
-/* rekomendasi */
+/* REKOMENDASI */
 async function getRecommendation(temp, humidity) {
   const res = await fetch(
-    `/farmora/api/recommend.php?temp=${temp}&humidity=${humidity}`,
+    `/farmogana/api/recommend.php?temp=${temp}&humidity=${humidity}`,
   );
 
   const plants = await res.json();

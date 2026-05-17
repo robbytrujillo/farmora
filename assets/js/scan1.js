@@ -1,4 +1,4 @@
-const URL = "/farmora/assets/model/";
+const URL = "/farmogana/assets/model/";
 
 let model;
 let maxPredictions;

@@ -1,5 +1,5 @@
 // async function loadWeather() {
-//   const res = await fetch("/farmora/api/weather.php");
+//   const res = await fetch("/farmogana/api/weather.php");
 //   const data = await res.json();
 
 //   if (data.error) {
@@ -21,7 +21,7 @@
 
 // async function loadWeather() {
 //   try {
-//     const res = await fetch("http://localhost/farmora/api/weather.php");
+//     const res = await fetch("http://localhost/farmogana/api/weather.php");
 
 //     const data = await res.json();
 
@@ -52,7 +52,7 @@
 
 document.addEventListener("DOMContentLoaded", async function () {
   try {
-    const res = await fetch("/farmora/api/weather.php");
+    const res = await fetch("/farmogana/api/weather.php");
     const data = await res.json();
 
     console.log(data);

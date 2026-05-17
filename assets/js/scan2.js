@@ -1,4 +1,4 @@
-const MODEL_URL = "/farmora/assets/model/";
+const MODEL_URL = "/farmogana/assets/model/";
 
 let model;
 

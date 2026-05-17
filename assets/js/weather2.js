@@ -37,7 +37,7 @@ async function success(position) {
 }
 
 async function fetchWeather(lat, lon, cityName) {
-  const res = await fetch(`/farmora/api/weather.php?lat=${lat}&lon=${lon}`);
+  const res = await fetch(`/farmogana/api/weather.php?lat=${lat}&lon=${lon}`);
 
   const data = await res.json();
 

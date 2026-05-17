@@ -92,5 +92,5 @@ $plants = $conn->query("SELECT * FROM plants");
     <p>Deteksi kesehatan tanaman</p>
 </div>
 
-<script src="/farmora/assets/js/weather.js"></script>
+<script src="/farmogana/assets/js/weather.js"></script>
 <?php include 'partials/footer.php'; ?>
