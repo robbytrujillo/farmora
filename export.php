@@ -26,8 +26,11 @@ $html = "
 
 <style>
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;&display=swap');
+
+
 body{
-font-family:Arial;
+font-family:Poppins;
 padding:35px;
 color:#333;
 }
@@ -40,7 +43,7 @@ margin-bottom:30px;
 .header h1{
 color:#2f9e44;
 margin:0;
-font-size:34px;
+font-size:24px;
 }
 
 .header p{
@@ -59,7 +62,7 @@ margin-bottom:25px;
 }
 
 img{
-width:420px;
+width:320px;
 max-width:100%;
 border-radius:18px;
 }

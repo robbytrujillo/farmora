@@ -68,7 +68,7 @@ function addCaptureButton() {
     "beforeend",
     `
 <button id="captureBtn"
-class="btn btn-success w-100 mt-3">
+class="btn btn-success w-100 mt-3" style="border-radius: 30px;">
 Ambil Foto
 </button>
 `,
@@ -220,7 +220,7 @@ name="advice"
 value="${advice}">
 
 <button
-class="btn btn-success w-100 mt-3">
+class="btn btn-success w-100 mt-3" style="border-radius: 30px;">
 Cetak PDF
 </button>
 

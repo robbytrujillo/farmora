@@ -150,7 +150,7 @@
 
             <p>Pilih metode scan</p>
 
-            <button id="cameraBtn" class="btn btn-success w-100 mb-2">
+            <button id="cameraBtn" class="btn btn-success w-100 mb-2" style="border-radius: 30px;">
                 Scan Kamera
             </button>
 
