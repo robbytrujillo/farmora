@@ -24,7 +24,7 @@ include 'partials/header.php';
         <img src="https://ui-avatars.com/api/?name=Robby+I&background=2f9e44&color=fff&size=200">
 
         <h4 class="mt-3 mb-1">
-            Robby I
+            Robby Ilhamkusuma
         </h4>
 
         <p class="text-muted mb-1">
@@ -113,13 +113,13 @@ include 'partials/header.php';
 
 
     <!-- LOGOUT -->
-    <div class="card-ui text-center">
+    <!-- <div class="card-ui text-center">
 
         <button class="btn btn-outline-danger w-100">
             Logout
         </button>
 
-    </div>
+    </div> -->
 
 </div>
 
